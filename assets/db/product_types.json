@@ -1,0 +1,13 @@
+[
+
+    {
+        "name": "Gigantografía",
+        "description": "Impresiones a medida area metro cuadrado"
+    },
+
+    {
+        "name": "Vinilo",
+        "description": "Impresiones en vinilo a metro lineal con ancho maximo 1.5m"
+    }
+
+]

@@ -1,0 +1,80 @@
+@startuml
+!theme toy
+
+skinparam component {
+  BackgroundColor lightblue
+  BorderColor black
+  ArrowColor black
+}
+
+skinparam arrow {
+  Thickness 2
+  Color blue
+}
+
+package "External World" as external_world {
+    component "Frontend (Angular)" as frontend
+    component "HTTP Clients (e.g., Postman)" as http_client
+}
+
+rectangle "FastAPI App" as fastapi_app {
+    package "src" as app_root {
+        rectangle "API Layer (Driving Adapter)" as api_layer {
+            component "src/api/v1/endpoints" as endpoints
+        }
+
+        rectangle "Application Layer (Core)" as application_layer {
+            component "src/application/services" as services
+            component "src/domain/interfaces" as interfaces
+            component "src/domain/entities" as domain_entities
+        }
+
+        rectangle "Infrastructure Layer (Driven Adapter)" as infrastructure_layer {
+            component "src/infrastructure/persistence" as persistence
+            component "src/infrastructure/database" as database
+            component "src/infrastructure/schemas" as schemas
+        }
+    }
+}
+
+' Relaciones y Dependencias'
+
+' Capa API (Adaptador de Entrada) -> Servicios de Aplicación (Puerto de Entrada del Core)
+endpoints --> services : Usa (calls)
+
+' Servicios de Aplicación (Core) -> Interfaces de Dominio (Puertos de Salida del Core)
+services --> interfaces : Depende de
+
+' Implementación de Persistencia (Adaptador de Salida) -> Interfaces de Dominio (Implementa el Puerto de Salida)
+persistence .up.|> interfaces : Implementa
+
+' Capa API (Adaptador de Entrada) -> Esquemas (DTOs para Entrada/Salida)
+endpoints --> schemas : Usa (valida/serializa)
+
+' Capa de Persistencia (Adaptador de Salida) -> Modelos de Base de Datos (SQLAlchemy)
+persistence --> database : Usa (DB Session, Models)
+
+' Modelos de DB (SQLAlchemy) en la infraestructura
+database --> domain_entities : (No directa, Mapping de Entidades\n/DB Models. Podría ser al revés\nsi el modelo DB es la Entidad.)
+
+' El "Mundo Exterior" interactúa con la capa API
+frontend ..|> endpoints : Peticiones HTTP
+http_client ..|> endpoints : Peticiones HTTP
+
+
+' Notas y Aclaraciones
+note top of app_root : **Arquitectura Hexagonal**\n(Ports & Adapters)\n\nDependencias siempre\nhacia el centro.
+
+note right of interfaces : **Puertos de Salida**\n(Interfaces que el Dominio necesita\npara interactuar con la infraestructura)\nEj: ProductRepository
+
+note left of services : **Servicios de Aplicación**\n(Casos de Uso)\nImplementan lógica de negocio específica.
+
+note bottom of persistence : **Adaptadores de Salida**\n(Implementaciones concretas\nde los puertos de salida)\nEj: SQLAlchemyProductRepository
+
+note right of endpoints : **Adaptadores de Entrada**\n(Reciben eventos externos y los\ntraducen a llamadas al Core)\nEj: FastAPI Controllers
+
+note bottom of schemas : **DTOs (Pydantic Schemas)**\n(Estructuras de datos para\nentrada/salida de la API)
+
+note left of domain_entities : **Entidades de Dominio**\n(Reglas de negocio puras, independientes\nde la persistencia. Opcionalmente,\nlos modelos SQLAlchemy si son ligeros\ny se usan con cuidado).
+
+@enduml
