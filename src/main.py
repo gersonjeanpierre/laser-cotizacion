@@ -12,7 +12,7 @@ from src.infrastructure.persistence.models.type_client import TypeClientORM
 from src.infrastructure.persistence.models.product_type import ProductTypeORM
 from src.infrastructure.persistence.models.extra_option import ExtraOptionORM
 from src.infrastructure.persistence.models.product import ProductORM
-# from src.infrastructure.persistence.models import StoreORM, ProductTypeORM, ...
+from src.infrastructure.persistence.models.customer import CustomerORM
 
 # Crea las tablas en la base de datos si no existen
 # ¡ADVERTENCIA! En entornos de producción, se recomienda usar herramientas de migración como Alembic.

@@ -9,15 +9,15 @@ class CustomerRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_email(self, email: str) -> Optional[Customer]:
-        pass
-
-    @abstractmethod
     def get_by_ruc(self, ruc: str) -> Optional[Customer]:
         pass
 
     @abstractmethod
     def get_by_dni(self, dni: str) -> Optional[Customer]:
+        pass
+    
+    @abstractmethod
+    def get_by_email(self, email: str) -> Optional[Customer]:
         pass
 
     @abstractmethod

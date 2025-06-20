@@ -1,8 +1,8 @@
 # src/infrastructure/persistence/models/type_client.py
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 from sqlalchemy import String, DateTime, Float, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.infrastructure.database.database import Base
 
@@ -20,6 +20,10 @@ class TypeClientORM(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
     updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    # Relación One-to-Many con CustomerORM
+    # Usamos la cadena "CustomerORM" si CustomerORM ya importa TypeClientORM para evitar circularidad
+    customers: Mapped[List["CustomerORM"]] = relationship(back_populates="type_client") # type: ignore
+
 
     def __repr__(self) -> str:
         return f"<TypeClientORM(id={self.id}, name='{self.name}', code='{self.code}')>"
