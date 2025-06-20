@@ -37,7 +37,7 @@ Table product_product_types {
 Table extra_options {
   id int [pk, increment]
   name varchar(255) [not null, unique]
-  price_modifier decimal(10, 2) [not null] // Renombrado a price_modifier para mayor claridad
+  price decimal(10, 2) [not null] 
   description text
   create_at datetime [default: `now()`]
   update_at datetime [default: `now()`]

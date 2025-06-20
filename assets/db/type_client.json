@@ -1,0 +1,22 @@
+[
+    {
+        "code": "CFN",
+        "name": "Cliente Final Nuevo",
+        "margin": 0.5
+    },
+    {
+        "code": "CFF",
+        "name": "Cliente Final Frecuente",
+        "margin": 0.3
+    },
+    {
+        "code": "CIN",
+        "name": "Cliente Imprentero Nuevo",
+        "margin": 0.3
+    },
+    {
+        "code": "CIF",
+        "name": "Cliente Imprentero Frecuente",
+        "margin": 0.15
+    }
+]

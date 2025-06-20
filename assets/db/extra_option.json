@@ -1,0 +1,89 @@
+[
+    { "description" : "Para Gigrantografías" }
+    ,
+    {
+        "name": "Termosellado",
+        "price": 2,
+        "description": "Sellado de la gigrantografia para evitar que se dañe con el tiempo."
+    }
+    ,
+    {
+        "name": "Tubo y colgante",
+        "price": 5,
+        "description": "Colocación de un tubo y colgante para facilitar el transporte y colgado de la gigrantografia."
+    }
+    ,
+    {
+        "name": "Ojales",
+        "price": 1,
+        "description": "Colocación de ojales en la gigrantografia para facilitar su colgado."
+    }
+    ,
+    {
+        "name": "Enmarcado",
+        "price": 2.5,
+        "description": "Enmarcado de la gigrantografia para una mejor presentación."
+    }
+    ,
+    { "description" : "Para Vinil"}
+    ,
+    {
+        "name": "Laminado Mate Chino",
+        "price": 5,
+        "description": "Laminado de vinil para protegerlo de daños y prolongar su durabilidad.       "
+    }
+    ,
+    {
+        "name": "Laminado Brillo Chino",
+        "price": 5,
+        "description": "Laminado de vinil para protegerlo de daños y prolongar su durabilidad."
+    }
+    ,
+    {
+        "name": "Laminado Mate Arclad",
+        "price": 10,
+        "description": "Laminado de vinil para protegerlo de daños y prolongar su durabilidad."
+    }
+    ,
+    {
+        "name": "Laminado Brillo Arclad",
+        "price": 10,
+        "description": "Laminado de vinil para protegerlo de daños y prolongar su durabilidad."
+    }
+    ,
+    {
+        "name": "Corte a medida",
+        "price": 1,
+        "description": "Corte del vinil a medida para adaptarlo a las necesidades del cliente."        
+    }
+    ,
+    {
+        "name": "Celtex 3mm",
+        "price": 37,
+        "description":  "Colocación de celtex de 3mm en la parte posterior del vinil para darle mayor rigidez y facilitar su colocación."
+    }
+    ,
+    {
+        "name": "Celtex 5mm",
+        "price": 50,
+        "description":  "Colocación de celtex de 3mm en la parte posterior del vinil para darle mayor rigidez y facilitar su colocación."
+    }
+    ,
+    {
+        "name": "Foam 3mm",
+        "price": 34,
+        "description": "Colocación de foam en la parte posterior del vinil para darle mayor rigidez y facilitar su colocación."
+    }
+    ,
+    {
+        "name": "Foam 5mm",
+        "price": 49,
+        "description": "Colocación de foam en la parte posterior del vinil para darle mayor rigidez y facilitar su colocación."
+    }
+    ,
+    {
+        "name": "Mano de obra",
+        "price": 5,
+        "description": "Costo de la mano de obra para la colocación del vinil con el celtex o foam."
+    }
+]
