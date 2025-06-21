@@ -1,0 +1,57 @@
+[
+  {
+    "code": "PEND",
+    "name": "Pendiente",
+    "description": "Pedido recibido, a la espera de confirmación o pago. Puede ser un pedido online no pagado o una cotización en proceso."
+  },
+  {
+    "code": "CONF",
+    "name": "Confirmado",
+    "description": "Pedido confirmado y/o pago validado. Listo para ser procesado por la tienda."
+  },
+  {
+    "code": "PREP",
+    "name": "En Preparación",
+    "description": "El pedido está siendo preparado o los productos están siendo recolectados en la tienda."
+  },
+  {
+    "code": "LISTO",
+    "name": "Listo para Recojo/Envío",
+    "description": "El pedido ha sido completamente preparado y está listo para que el cliente lo recoja en tienda o para ser despachado por envío."
+  },
+  {
+    "code": "RECOGIDO",
+    "name": "Recogido",
+    "description": "El cliente ha recogido el pedido en la tienda. Aplica solo para recojos en tienda."
+  },
+  {
+    "code": "EN_ENVIO",
+    "name": "En Envío",
+    "description": "El pedido ha salido de la tienda y está en proceso de entrega. Aplica solo para pedidos con envío a domicilio."
+  },
+  {
+    "code": "ENTREGADO",
+    "name": "Entregado",
+    "description": "El pedido ha sido entregado exitosamente al cliente. Estado final para pedidos con envío."
+  },
+  {
+    "code": "COMP",
+    "name": "Completado",
+    "description": "El ciclo de vida del pedido ha finalizado satisfactoriamente (ya sea por recojo o entrega). Este estado es general y marca el cierre."
+  },
+  {
+    "code": "CANC",
+    "name": "Cancelado",
+    "description": "El pedido ha sido cancelado por el cliente o la tienda. No se procesará."
+  },
+  {
+    "code": "RECH",
+    "name": "Rechazado",
+    "description": "El pedido fue rechazado por la tienda (ej. falta de stock, problema con el pago). Similar a 'Cancelado' pero implica una acción por parte de la tienda."
+  },
+  {
+    "code": "DEV",
+    "name": "Devuelto",
+    "description": "El cliente ha devuelto el pedido total o parcialmente."
+  }
+]

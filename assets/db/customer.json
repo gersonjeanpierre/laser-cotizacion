@@ -1,0 +1,20 @@
+[
+    {
+        "type_client_id": 1,
+        "entity_type": "N",
+        "dni": "12345678",
+        "name": "Juan",
+        "last_name": "Perez",
+        "phone_number": "987654321",
+        "email": "juan.perez@example.com"
+    }
+    ,
+    {
+        "type_client_id": 2,
+        "entity_type": "J",
+        "ruc": "20123456789",
+        "business_name": "Empresa XYZ S.A.C.",
+        "phone_number": "012345678",
+        "email": "contacto@empresaxyz.com"
+    }
+]
