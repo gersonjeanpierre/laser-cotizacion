@@ -14,7 +14,8 @@ from src.infrastructure.persistence.models.extra_option import ExtraOptionORM
 from src.infrastructure.persistence.models.product import ProductORM
 from src.infrastructure.persistence.models.customer import CustomerORM
 from src.infrastructure.persistence.models.order_status import OrderStatusORM
-# from src.infrastructure.persistence.models.order import OrderORM
+from src.infrastructure.persistence.models.order import OrderORM
+from src.infrastructure.persistence.models.order_detail import OrderDetailORM, OrderDetailExtraOptionORM
 
 # Crea las tablas en la base de datos si no existen
 # ¡ADVERTENCIA! En entornos de producción, se recomienda usar herramientas de migración como Alembic.

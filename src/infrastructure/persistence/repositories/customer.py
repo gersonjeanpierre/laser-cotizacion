@@ -40,6 +40,7 @@ class SQLAlchemyCustomerRepository(CustomerRepository):
             entity_type=cast(Literal['N', 'J'], orm_model.entity_type),
             ruc=orm_model.ruc,
             dni=orm_model.dni,
+            doc_foreign=orm_model.doc_foreign,
             name=orm_model.name,
             last_name=orm_model.last_name,
             business_name=orm_model.business_name,
@@ -63,6 +64,7 @@ class SQLAlchemyCustomerRepository(CustomerRepository):
         orm_model.entity_type = domain_model.entity_type
         orm_model.ruc = domain_model.ruc
         orm_model.dni = domain_model.dni
+        orm_model.doc_foreign = domain_model.doc_foreign 
         orm_model.name = domain_model.name
         orm_model.last_name = domain_model.last_name
         orm_model.business_name = domain_model.business_name

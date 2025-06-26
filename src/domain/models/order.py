@@ -2,19 +2,19 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional, List
+from src.domain.models.customer import Customer
+from src.domain.models.store import Store
+from src.domain.models.order_status import OrderStatus
+from src.domain.models.order_detail import OrderDetail
 
 @dataclass
 class Order:
-    # Campos obligatorios sin valor por defecto (primero)
     customer_id: int
     store_id: int
     order_status_id: int
-    order_date: datetime
     total_amount: float
     profit_margin: float
     final_amount: float
-
-    # Campos opcionales o con valores por defecto (después)
     id: Optional[int] = None
     discount_applied: float = 0.00
     payment_method: Optional[str] = None
@@ -23,3 +23,16 @@ class Order:
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
     deleted_at: Optional[datetime] = None
+    
+    # Relaciones de dominio para enriquecer el objeto
+    customer: Optional[Customer] = None
+    store: Optional[Store] = None
+    status: Optional[OrderStatus] = None
+    details: List[OrderDetail] = field(default_factory=list)
+
+    def is_active(self) -> bool:
+        return self.deleted_at is None
+
+    def mark_as_deleted(self):
+        if self.is_active():
+            self.deleted_at = datetime.now()

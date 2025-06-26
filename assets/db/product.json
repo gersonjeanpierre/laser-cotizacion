@@ -1,0 +1,203 @@
+[
+  {
+    "sku": "IMP-GIG",
+    "name": "Imprimir Gigantografía",
+    "description": "Impresiones a medida",
+    "unity_measure": "m2",
+    "price": 17,
+    "image_url": "/images/giga.webp",
+    "product_type_ids": [
+      1
+    ],
+    "extra_option_ids": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "sku": "VIN-BMC",
+    "name": "Vinilo Blanco Mate Chino",
+    "description": "Vinilo blanco mate chino de alta calidad",
+    "unity_measure": "metro lineal",
+    "price": 40,
+    "image_url": "/images/vinil-bmc.webp",
+    "product_type_ids": [
+      2
+    ],
+    "extra_option_ids": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  {
+    "sku": "VIN-BBC",
+    "name": "Vinilo Blanco Brillo Chino",
+    "description": "Vinilo blanco brillante chino de alta calidad",
+    "unity_measure": "metro lineal",
+    "price": 40,
+    "image_url": "/images/vinil-bbc.webp",
+    "product_type_ids": [
+      2
+    ],
+    "extra_option_ids": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  {
+    "sku": "VIN-TMC",
+    "name": "Vinilo Transparente Mate Chino",
+    "description": "Vinilo transparente mate chino de alta calidad",
+    "unity_measure": "metro lineal",
+    "price": 40,
+    "image_url": "/images/vinil-tmc.webp",
+    "product_type_ids": [
+      2
+    ],
+    "extra_option_ids": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  {
+    "sku": "VIN-TBC",
+    "name": "Vinilo Transparente Brillo Chino",
+    "description": "Vinilo transparente brillante chino de alta calidad",
+    "unity_measure": "metro lineal",
+    "price": 40,
+    "image_url": "/images/vinil-tbc.webp",
+    "product_type_ids": [
+      2
+    ],
+    "extra_option_ids": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  {
+    "sku": "VIN-BMA",
+    "name": "Vinilo Blanco Mate Arclad",
+    "description": "Vinilo blanco mate Arclad de alta calidad",
+    "unity_measure": "metro lineal",
+    "price": 50,
+    "image_url": "/images/vinil-bma.webp",
+    "product_type_ids": [
+      2
+    ],
+    "extra_option_ids": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  {
+    "sku": "VIN-BBA",
+    "name": "Vinilo Blanco Brillo Arclad",
+    "description": "Vinilo blanco brillante Arclad de alta calidad",
+    "unity_measure": "metro lineal",
+    "price": 50,
+    "image_url": "/images/vinil-bba.webp",
+    "product_type_ids": [
+      2
+    ],
+    "extra_option_ids": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  {
+    "sku": "VIN-TMA",
+    "name": "Vinilo Transparente Mate Arclad",
+    "description": "Vinilo transparente mate Arclad de alta calidad",
+    "unity_measure": "metro lineal",
+    "price": 50,
+    "image_url": "/images/vinil-tma.webp",
+    "product_type_ids": [
+      2
+    ],
+    "extra_option_ids": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  {
+    "sku": "VIN-TBA",
+    "name": "Vinilo Transparente Brillo Arclad",
+    "description": "Vinilo transparente brillante Arclad de alta calidad",
+    "unity_measure": "metro lineal",
+    "price": 50,
+    "image_url": "/images/vinil-tba.webp",
+    "product_type_ids": [
+      2
+    ],
+    "extra_option_ids": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  }
+]

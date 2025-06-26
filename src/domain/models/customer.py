@@ -14,6 +14,7 @@ class Customer:
     type_client_id: int # ID del tipo de cliente
     
     id: Optional[int] = None
+    doc_foreign: Optional[str] = None # Número de documento, para CE 
     ruc: Optional[str] = None # RUC es opcional, pero único si está presente
     dni: Optional[str] = None # DNI es opcional, pero único si está presente
     name: Optional[str] = None

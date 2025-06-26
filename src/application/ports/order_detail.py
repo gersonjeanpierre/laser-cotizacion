@@ -4,28 +4,25 @@ from typing import List, Optional
 from src.domain.models.order_detail import OrderDetail
 
 class OrderDetailRepository(ABC):
+    """
+    Puerto (interfaz) para interactuar con los datos de los detalles de pedido.
+    """
     @abstractmethod
-    def get_by_id(self, order_detail_id: int) -> Optional[OrderDetail]:
+    def get_by_id(self, detail_id: int) -> Optional[OrderDetail]:
+        """Obtiene un detalle de pedido por su ID."""
         pass
-    
+
     @abstractmethod
-    def get_by_order_id(self, order_id: int) -> List[OrderDetail]:
+    def get_all_by_order_id(self, order_id: int) -> List[OrderDetail]:
+        """Obtiene todos los detalles de pedido para un pedido específico."""
         pass
 
     @abstractmethod
     def save(self, order_detail: OrderDetail) -> OrderDetail:
+        """Guarda o actualiza un detalle de pedido en la base de datos."""
         pass
 
     @abstractmethod
-    def delete(self, order_detail_id: int) -> Optional[OrderDetail]:
-        pass
-
-    @abstractmethod
-    def add_extra_option_to_detail(self, order_detail_id: int, extra_option_id: int, price_at_order: float):
-        """Asocia una opción extra a un detalle de pedido."""
-        pass
-    
-    @abstractmethod
-    def remove_extra_option_from_detail(self, order_detail_id: int, extra_option_id: int):
-        """Desasocia (lógicamente) una opción extra de un detalle de pedido."""
+    def delete(self, detail_id: int) -> Optional[OrderDetail]:
+        """Elimina lógicamente un detalle de pedido por su ID."""
         pass

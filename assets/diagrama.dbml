@@ -110,8 +110,7 @@ Table orders {
   id int [pk, increment]
   customer_id int [ref: > customers.id] // Cliente que realiza el pedido
   store_id int [ref: > stores.id] // Tienda donde se realizó el pedido
-  order_status_id int [ref: > order_status.id] // Estado actual del pedido
-  order_date datetime [not null, default: `now()`] // Fecha y hora del pedido
+  order_status_id int [ref: > order_status.id]
   total_amount decimal(10, 2) [not null] // Monto total del pedido (se calcula con los detalles)
   profit_margin decimal(10, 2) [not null] // Margen de ganancia del pedido
   discount_applied decimal(10, 2) [default: 0.00] // Descuento aplicado al pedido  
@@ -129,10 +128,12 @@ Table order_details {
   id int [pk, increment]
   order_id int [ref: > orders.id] // Pedido al que pertenece este detalle
   product_id int [ref: > products.id] // Producto final en este detalle del pedido
-  quantity int [not null] // Cantidad del producto
-  unit_price decimal(10, 2) [not null] // Precio del producto al momento de la venta (importante para historial)
-  total_extra_options decimal(10, 2) [default: 0.00] // Total de las opciones extras aplicadas
+  height decimal(10, 2) // Altura del producto si aplica
+  width decimal(10, 2) // Ancho del producto si aplica
+  quantity int [not null]
+  linear_meter decimal(10, 2) 
   subtotal decimal(10, 2) [not null] // Subtotal por esta línea de producto (quantity * (unit_price  + total_extra_options))
+  total_extra_options decimal(10, 2) [default: 0.00] // Total de las opciones extras aplicadas
   create_at datetime [default: `now()`]
   delete_at datetime
 }
@@ -140,7 +141,8 @@ Table order_details {
 Table order_detail_extra_options {
   order_detail_id int [ref: > order_details.id]
   extra_option_id int [ref: > extra_options.id]
-  price_at_order decimal(10,2) // Precio de la extra en el momento del pedido
+  quantity decimal(10,2) [not null]
+  linear_meter decimal(10,2) // Medida lineal si aplica
   indexes {
     (order_detail_id, extra_option_id) [pk]
   }
