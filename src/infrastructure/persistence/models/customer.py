@@ -4,7 +4,7 @@ from sqlalchemy import String, DateTime, func, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.infrastructure.database.database import Base
-from src.infrastructure.persistence.models.type_client import TypeClientORM
+# from src.infrastructure.persistence.models.type_client import TypeClientORM
 
 class CustomerORM(Base):
     """
@@ -34,7 +34,7 @@ class CustomerORM(Base):
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
     # Relación One-to-One con TypeClient
-    type_client: Mapped[TypeClientORM] = relationship(lazy="joined")
+    type_client: Mapped["TypeClientORM"] = relationship(lazy="joined")
 
     def __repr__(self) -> str:
         return f"<CustomerORM(id={self.id}, email={self.email})>"

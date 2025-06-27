@@ -7,9 +7,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.infrastructure.database.database import Base
 
 # Importa los modelos ORM con los que se relaciona
-from src.infrastructure.persistence.models.product import ProductORM
-from src.infrastructure.persistence.models.extra_option import ExtraOptionORM
-from src.infrastructure.persistence.models.order import OrderORM
+# from src.infrastructure.persistence.models.product import ProductORM
+# from src.infrastructure.persistence.models.extra_option import ExtraOptionORM
+# from src.infrastructure.persistence.models.order import OrderORM
 
 class OrderDetailExtraOptionORM(Base):
     """
@@ -24,7 +24,7 @@ class OrderDetailExtraOptionORM(Base):
     
     # Definición de relaciones con los otros modelos ORM
     order_detail: Mapped["OrderDetailORM"] = relationship(back_populates="extra_options")
-    extra_option: Mapped[ExtraOptionORM] = relationship()
+    extra_option: Mapped["ExtraOptionORM"] = relationship()
 
     def __repr__(self) -> str:
         return f"<OrderDetailExtraOptionORM(order_detail_id={self.order_detail_id}, extra_option_id={self.extra_option_id})>"
@@ -49,8 +49,8 @@ class OrderDetailORM(Base):
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     
     # Definición de relaciones con los otros modelos ORM
-    order: Mapped[OrderORM] = relationship(back_populates="details")
-    product: Mapped[ProductORM] = relationship()
+    order: Mapped["OrderORM"] = relationship(back_populates="details")
+    product: Mapped["ProductORM"] = relationship()
     extra_options: Mapped[List[OrderDetailExtraOptionORM]] = relationship(back_populates="order_detail", cascade="all, delete-orphan")
 
     def __repr__(self) -> str:

@@ -6,12 +6,13 @@ authors = [
     {name = "Gerson Jean Pierre",email = "jalukone@outlook.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.13,<4.0"
 dependencies = [
     "fastapi[standard] (>=0.115.13,<0.116.0)",
     "sqlalchemy (>=2.0.41,<3.0.0)",
     "python-dotenv (>=1.1.0,<2.0.0)",
-    "psycopg (>=3.2.9,<4.0.0)"
+    "psycopg (>=3.2.9,<4.0.0)",
+    "atlas-provider-sqlalchemy (>=0.3.2,<0.4.0)"
 ]
 
 [tool.poetry]

@@ -7,11 +7,6 @@ from sqlalchemy import func
 
 from src.infrastructure.database.database import Base
 
-# NO IMPORTES ProductTypeORM NI ExtraOptionORM AQUÍ.
-# Las referencias se harán con cadenas de texto.
-
-# Tablas de asociación para las relaciones Many-to-Many
-# product_product_types
 product_product_types_table = Table(
     "product_product_types",
     Base.metadata,
@@ -45,8 +40,6 @@ class ProductORM(Base):
     updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
-    # Definición de relaciones Many-to-Many usando CADENAS DE TEXTO
-    # Esto le dice a SQLAlchemy que resuelva la referencia más tarde
     product_types: Mapped[List["ProductTypeORM"]] = relationship( # type: ignore
         secondary=product_product_types_table,
         back_populates="products"
