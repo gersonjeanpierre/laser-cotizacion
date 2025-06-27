@@ -1,20 +1,52 @@
 [
     {
-        "type_client_id": 1,
-        "entity_type": "N",
-        "dni": "12345678",
-        "name": "Juan",
-        "last_name": "Perez",
-        "phone_number": "987654321",
-        "email": "juan.perez@example.com"
-    }
+  "type_client_id": 1,
+  "entity_type": "N",
+  "dni": "87654321",
+  "ruc": null,
+  "doc_foreign": null,
+  "name": "Maria",
+  "last_name": "García",
+  "business_name": null,
+  "phone_number": "998877665",
+  "email": "maria.garcia@example.com"
+}
     ,
-    {
-        "type_client_id": 2,
-        "entity_type": "J",
-        "ruc": "20123456789",
-        "business_name": "Empresa XYZ S.A.C.",
-        "phone_number": "012345678",
-        "email": "contacto@empresaxyz.com"
-    }
+{
+  "type_client_id": 2,
+  "entity_type": "N",
+  "dni": "87354323",
+  "ruc": "10876543210",
+  "doc_foreign": null,
+  "name": "Carlos",
+  "last_name": "Lopez",
+  "business_name": "Mi Tienda de Abarrotes",
+  "phone_number": "999888777",
+  "email": "carlos.lopez@negocio.com"
+},
+{
+  "type_client_id": 1,
+  "entity_type": "N",
+  "dni": null,
+  "ruc": null,
+  "doc_foreign": "A12345678",
+  "name": "Javier",
+  "last_name": "Rodríguez",
+  "business_name": null,
+  "phone_number": "912345678",
+  "email": "javier.rodriguez@email.com"
+},
+{
+  "type_client_id": 4,
+  "entity_type": "J",
+  "ruc": "20123456789",
+  "dni": "09876543",
+  "doc_foreign": null,
+  "name": "Ana",
+  "last_name": "González",
+  "business_name": "Innovaciones Tecnológicas S.A.C.",
+  "phone_number": "900112233",
+  "email": "ana.gonzalez@innovaciones.com"
+}
+
 ]
