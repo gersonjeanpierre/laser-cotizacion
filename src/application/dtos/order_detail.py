@@ -8,6 +8,7 @@ class CreateOrderDetailExtraOptionDto(BaseModel):
     extra_option_id: int = Field(..., description="ID de la opción extra.")
     quantity: float = Field(..., gt=0, description="Cantidad de la opción extra.")
     linear_meter: Optional[float] = Field(None, gt=0, description="Medida lineal si aplica.")
+    width: Optional[float] = Field(None, gt=0, description="Ancho de la opción extra.")
 
 # DTO para crear un detalle de pedido
 class CreateOrderDetailDto(BaseModel):

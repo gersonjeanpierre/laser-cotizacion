@@ -10,6 +10,7 @@ class OrderDetailExtraOption:
     extra_option_id: int
     quantity: float
     linear_meter: Optional[float] = None
+    width: Optional[float] = None
     extra_option: Optional[ExtraOption] = None # Para la relación de dominio
     created_at: Optional[datetime] = None
 

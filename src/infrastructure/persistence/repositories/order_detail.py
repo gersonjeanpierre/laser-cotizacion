@@ -20,6 +20,7 @@ class SQLAlchemyOrderDetailRepository(OrderDetailRepository):
             extra_option_id=orm_model.extra_option_id,
             quantity=float(orm_model.quantity),
             linear_meter=float(orm_model.linear_meter) if orm_model.linear_meter is not None else None,
+            width=float(orm_model.width) if orm_model.width is not None else None
         )
 
     def _to_orm_extra_option_model(self, domain_model: DomainOrderDetailExtraOption) -> OrderDetailExtraOptionORM:

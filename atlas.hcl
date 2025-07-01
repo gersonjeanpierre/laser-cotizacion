@@ -8,9 +8,8 @@ data "external_schema" "sqlalchemy" {
 
 env "dev" {
   src = data.external_schema.sqlalchemy.url
-  dev = "postgresql://postgres:L4z4r0$@localhost:5432/CotizacionDev?sslmode=disable&search_path=public"
-  // url = "postgresql://postgres:L4z4r0$@localhost:5432/Cotizacion?sslmode=disable&search_path=public"
-  url = "postgresql://postgres:L4z4r0$@localhost:5432/CotizacionDev?sslmode=disable&search_path=public"
+  dev = "postgresql://postgres:L4z4r0$@localhost:5432/CotizacionDev?sslmode=disable&search_path=public" // Necesario para que Atlas pueda crear el esquema, migraciones y demás
+  url = "postgresql://postgres:L4z4r0$@localhost:5432/Cotizacion?sslmode=disable&search_path=public" // URL de conexión a la base de datos de desarrollo
   migration {
     dir = "file://db/migrations"
   }

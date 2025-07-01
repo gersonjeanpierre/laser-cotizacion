@@ -21,6 +21,7 @@ class OrderDetailExtraOptionORM(Base):
     extra_option_id: Mapped[int] = mapped_column(ForeignKey("extra_options.id"), primary_key=True)
     quantity: Mapped[float] = mapped_column(DECIMAL(10, 2), nullable=False)
     linear_meter: Mapped[Optional[float]] = mapped_column(DECIMAL(10, 2), nullable=True)
+    width: Mapped[Optional[float]] = mapped_column(DECIMAL(10, 2), nullable=True)
     
     # Definición de relaciones con los otros modelos ORM
     order_detail: Mapped["OrderDetailORM"] = relationship(back_populates="extra_options")

@@ -59,6 +59,7 @@ class OrderDetailUseCases:
                 extra_option_id=eo_dto.extra_option_id,
                 quantity=eo_dto.quantity,
                 linear_meter=eo_dto.linear_meter,
+                width=eo_dto.width,
             ) for eo_dto in detail_dto.extra_options
         ]
         
