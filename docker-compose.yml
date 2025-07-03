@@ -1,0 +1,23 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+      - ./db/migrations:/app/db/migrations
+    env_file:
+      - .env
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: Cotizacion
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: L4z4r0$
+    ports:
+      - "5000:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
