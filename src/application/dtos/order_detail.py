@@ -9,6 +9,7 @@ class CreateOrderDetailExtraOptionDto(BaseModel):
     quantity: float = Field(..., gt=0, description="Cantidad de la opción extra.")
     linear_meter: Optional[float] = Field(None, gt=0, description="Medida lineal si aplica.")
     width: Optional[float] = Field(None, gt=0, description="Ancho de la opción extra.")
+    giga_select: Optional[str] = Field(None, description="Select gigantografía si aplica.")
 
 # DTO para crear un detalle de pedido
 class CreateOrderDetailDto(BaseModel):
@@ -17,6 +18,8 @@ class CreateOrderDetailDto(BaseModel):
     width: Optional[float] = Field(None, gt=0, description="Ancho del producto.")
     quantity: int = Field(..., gt=0, description="Cantidad del producto.")
     linear_meter: Optional[float] = Field(None, gt=0, description="Medida lineal si aplica.")
+    subtotal: float = Field(..., gt=0, description="Subtotal del detalle.")
+    total_extra_options: float = Field(..., gt=0, description="Total de las opciones extra.")
     extra_options: List[CreateOrderDetailExtraOptionDto] = Field(default_factory=list, description="Opciones extra del detalle.")
 
 # DTOs de respuesta

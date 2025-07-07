@@ -22,10 +22,11 @@ class OrderDetailExtraOptionORM(Base):
     quantity: Mapped[float] = mapped_column(DECIMAL(10, 2), nullable=False)
     linear_meter: Mapped[Optional[float]] = mapped_column(DECIMAL(10, 2), nullable=True)
     width: Mapped[Optional[float]] = mapped_column(DECIMAL(10, 2), nullable=True)
+    giga_select: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)  # Select gigantografía
     
     # Definición de relaciones con los otros modelos ORM
     order_detail: Mapped["OrderDetailORM"] = relationship(back_populates="extra_options")
-    extra_option: Mapped["ExtraOptionORM"] = relationship()
+    extra_option: Mapped["ExtraOptionORM"] = relationship() # type: ignore
 
     def __repr__(self) -> str:
         return f"<OrderDetailExtraOptionORM(order_detail_id={self.order_detail_id}, extra_option_id={self.extra_option_id})>"

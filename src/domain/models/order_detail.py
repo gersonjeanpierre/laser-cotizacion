@@ -11,6 +11,7 @@ class OrderDetailExtraOption:
     quantity: float
     linear_meter: Optional[float] = None
     width: Optional[float] = None
+    giga_select: Optional[str] = None # select gigantografia
     extra_option: Optional[ExtraOption] = None # Para la relación de dominio
     created_at: Optional[datetime] = None
 
