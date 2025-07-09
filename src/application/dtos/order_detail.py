@@ -19,7 +19,7 @@ class CreateOrderDetailDto(BaseModel):
     quantity: int = Field(..., gt=0, description="Cantidad del producto.")
     linear_meter: Optional[float] = Field(None, gt=0, description="Medida lineal si aplica.")
     subtotal: float = Field(..., gt=0, description="Subtotal del detalle.")
-    total_extra_options: float = Field(..., gt=0, description="Total de las opciones extra.")
+    total_extra_options: float = Field(..., ge=0, description="Total de las opciones extra.")
     extra_options: List[CreateOrderDetailExtraOptionDto] = Field(default_factory=list, description="Opciones extra del detalle.")
 
 # DTOs de respuesta
