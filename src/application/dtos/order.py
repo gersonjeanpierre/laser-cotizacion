@@ -54,3 +54,4 @@ class OrderResponseDto(BaseModel):
 class UpdateOrderStatusDto(BaseModel):
     order_status_id: int = Field(..., description="El nuevo ID del estado del pedido.")
     notes: Optional[str] = Field(None, max_length=200, description="Notas adicionales sobre el cambio de estado.")
+    payment_method: Optional[str] = Field(None, description="Método de pago del pedido.")

@@ -133,7 +133,7 @@ class OrderUseCases:
     
     def update_order_status(self, order_id: int, status_dto: UpdateOrderStatusDto) -> OrderResponseDto:
         """
-        Actualiza el estado de un pedido existente.
+        Actualiza el estado, notas y método de pago de un pedido existente.
         """
         # 1. Recuperar el pedido por su ID
         order_to_update = self.repository.get_by_id(order_id)
@@ -149,6 +149,8 @@ class OrderUseCases:
         order_to_update.order_status_id = status_dto.order_status_id
         if status_dto.notes is not None:
             order_to_update.notes = status_dto.notes
+        if status_dto.payment_method is not None:
+            order_to_update.payment_method = status_dto.payment_method
         
         # 4. Guardar los cambios a través del repositorio
         updated_order = self.repository.save(order_to_update)

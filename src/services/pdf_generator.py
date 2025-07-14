@@ -66,9 +66,9 @@ def _header_footer_template(canvas_obj, doc):
             pass  # fallback to default
     
     # Estilos específicos para header/footer
-    styles.add(ParagraphStyle(name='HeaderCompanyFixedStyle', fontSize=10, leading=12, alignment=0, fontName='Helvetica-Bold'))
+    styles.add(ParagraphStyle(name='HeaderCompanyFixedStyle', fontSize=9, leading=12, alignment=0, fontName='Helvetica'))
     styles.add(ParagraphStyle(name='HeaderClientFixedStyle', fontSize=9, leading=11, alignment=0, fontName='Helvetica-Bold'))
-    styles.add(ParagraphStyle(name='DateStyle', fontSize=12, leading=11, alignment=0, fontName='Helvetica-Bold'))
+    styles.add(ParagraphStyle(name='DateStyle', fontSize=11, leading=11, alignment=0, fontName='Helvetica'))
     styles.add(ParagraphStyle(name='NormalFixedStyle', fontSize=8, leading=10, spaceAfter=1))
     styles.add(ParagraphStyle(name='FooterContactInfoStyle', fontSize=13, leading=16, alignment= 1, fontName='Helvetica', spaceAfter=6, spaceBefore=2 , ))
     styles.add(ParagraphStyle(name='PageNumberStyle', fontSize=8, leading=10, alignment=2)) # Para el número de página
@@ -92,7 +92,7 @@ def _header_footer_template(canvas_obj, doc):
 
     company_address_p = Paragraph("EDITORIAL GLOBAL MULTIPRINT EIRL", styles['HeaderCompanyFixedStyle'])
     company_address_p.wrapOn(canvas_obj, doc.width, doc.height)
-    company_address_p.drawOn(canvas_obj, logo_x + 5*mm, header_y_start )  
+    company_address_p.drawOn(canvas_obj, logo_x + 10*mm, header_y_start )  
     
     #############################
     ######## F O O T E R ########
@@ -246,53 +246,66 @@ def generate_order_pdf(
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=A4,
                             rightMargin=30, leftMargin=30,
-                            topMargin=20 * mm, bottomMargin=65 * mm)
+                            topMargin=23 * mm, bottomMargin=68 * mm)
     
     styles = getSampleStyleSheet()
     
     # Estilos personalizados
-    styles.add(ParagraphStyle(name='TitleStyle', fontSize=24, leading=28, alignment=1, spaceAfter=20, fontName='Helvetica-Bold'))
-    styles.add(ParagraphStyle(name='HeaderCompanyStyle', fontSize=12, leading=14, alignment=0, fontName='Helvetica-Bold'))
-    styles.add(ParagraphStyle(name='HeaderClientStyle', fontSize=10, leading=12, alignment=0, fontName='Helvetica-Bold'))
+    styles.add(ParagraphStyle(name='Intro', fontSize=12, leading=28, alignment=0,  fontName='Helvetica'))
+    styles.add(ParagraphStyle(name='IntroIdent', fontSize=12, leading=28, alignment=0, firstLineIndent=100, fontName='Helvetica'))
     styles.add(ParagraphStyle(name='HeaderStyle', fontSize=12, leading=14, spaceAfter=6, fontName='Helvetica-Bold'))
-    styles.add(ParagraphStyle(name='NormalStyle', fontSize=10, leading=12, spaceAfter=3))
+    styles.add(ParagraphStyle(name='NormalStyle', fontSize=12, leading=12, spaceAfter=3))
     styles.add(ParagraphStyle(name='ItemHeaderStyle', fontSize=10, leading=12, alignment=1, fontName='Helvetica-Bold'),)
     styles.add(ParagraphStyle(name='ItemDataStyle', fontSize=9, leading=11 , alignment=2, fontName='Helvetica'))
     styles.add(ParagraphStyle(name='TotalStyle', fontSize=14, leading=16, alignment=2, fontName='Helvetica-Bold'))
-    styles.add(ParagraphStyle(name='FooterStyle', fontSize=8, leading=10, alignment=1, spaceBefore=20))
+    styles.add(ParagraphStyle(name='CodeName', fontSize=10, leading=10, alignment=1, ))
+    styles.add(ParagraphStyle(name='NumberItem', fontSize=10, leading=10, alignment=1, ))
+    styles.add(ParagraphStyle(name="ProductName", fontSize=10, leading=10, alignment=0, fontName='Helvetica'))
+    styles.add(ParagraphStyle(name="Quantity", fontSize=10, leading=10, alignment=1, fontName='Helvetica'))
+
+
 
     elements = []
 
-    # Información de la orden
-    elements.append(Paragraph(f"<b>Orden ID:</b> {order.id}", styles['HeaderStyle']))
-    elements.append(Paragraph(f"<b>Fecha:</b> {order.created_at.strftime('%d/%m/%Y %H:%M')}", styles['NormalStyle']))
-    elements.append(Paragraph(f"<b>Estado:</b> {order.status.name if order.status else 'Desconocido'}", styles['NormalStyle']))
-    if order.store:
-        elements.append(Paragraph(f"<b>Tienda:</b> {order.store.name}", styles['NormalStyle']))
-    elements.append(Spacer(1, 0.1 * inch))
-
     # Información del cliente
-    elements.append(Paragraph("<b>Información del Cliente:</b>", styles['HeaderStyle']))
     customer = order.customer
     if customer:
         customer_name = customer.business_name if customer.entity_type == 'J' else f"{customer.name} {customer.last_name}"
-        elements.append(Paragraph(f"<b>Nombre/Razón Social:</b> {customer_name}", styles['NormalStyle']))
         if customer.entity_type == 'J' and customer.ruc:
+            elements.append(Paragraph(f"<b>Razón Social:</b> {customer_name}", styles['NormalStyle']))
             elements.append(Paragraph(f"<b>RUC:</b> {customer.ruc}", styles['NormalStyle']))
-        elif customer.entity_type == 'N' and customer.dni:
-            elements.append(Paragraph(f"<b>DNI:</b> {customer.dni}", styles['NormalStyle']))
+            if customer.name and customer.last_name:
+                elements.append(Paragraph(f"<b>Representante:</b> {customer.name} {customer.last_name}", styles['NormalStyle']))
+        elif customer.entity_type == 'N' and (customer.dni or customer.doc_foreign):
+            elements.append(Paragraph(f"<b>Sr(a): </b> {customer_name}", styles['NormalStyle']))
+            if customer.doc_foreign:
+                elements.append(Paragraph(f"<b>Doc. Extranjeria:</b> {customer.doc_foreign}", styles['NormalStyle']))
+            if customer.dni:
+                elements.append(Paragraph(f"<b>DNI:</b> {customer.dni}", styles['NormalStyle']))                 
+        elements.append(Paragraph(f"<b>Celular:</b> {customer.phone_number}", styles['NormalStyle']))
         elements.append(Paragraph(f"<b>Email:</b> {customer.email}", styles['NormalStyle']))
-        elements.append(Paragraph(f"<b>Teléfono:</b> {customer.phone_number}", styles['NormalStyle']))
     else:
         elements.append(Paragraph("Cliente no especificado.", styles['NormalStyle']))
     elements.append(Spacer(1, 0.2 * inch))
 
+    # # Información de la orden
+    # elements.append(Paragraph(f"<b>Orden ID:</b> {order.id}", styles['HeaderStyle']))
+    # elements.append(Paragraph(f"<b>Fecha:</b> {order.created_at.strftime('%d/%m/%Y %H:%M')}", styles['NormalStyle']))
+    # elements.append(Paragraph(f"<b>Estado:</b> {order.status.name if order.status else 'Desconocido'}", styles['NormalStyle']))
+    # if order.store:
+    #     elements.append(Paragraph(f"<b>Tienda:</b> {order.store.name}", styles['NormalStyle']))
+    # elements.append(Spacer(1, 0.1 * inch))
+    # Introduccion del PDF
+    elements.append(Paragraph("De nuestra mayor consideracion:", styles['Intro']))
+    elements.append(Paragraph("Es grato dirigirnos a Uds. a fin de hacerle llegar nuestra propuesta economica por lo siguiente:", styles['IntroIdent']))
+
     # Tabla de items
     data = [
         [
+            Paragraph("<font color=white>Item</font>", styles['ItemHeaderStyle']),
             Paragraph("<font color=white>Codigo</font>", styles['ItemHeaderStyle']),
             Paragraph("<font color=white>Producto</font>", styles['ItemHeaderStyle']),
-            Paragraph("<font color=white>Cantidad</font>", styles['ItemHeaderStyle']),
+            Paragraph("<font color=white>Cant.</font>", styles['ItemHeaderStyle']),
             Paragraph("<font color=white>P.Unit</font>", styles['ItemHeaderStyle']),
             Paragraph("<font color=white>Importe</font>", styles['ItemHeaderStyle'])
         ]
@@ -301,7 +314,7 @@ def generate_order_pdf(
     subtotal_row_indices = []
     extras_row_indices = []
 
-    for product in display_items:
+    for idx, product in enumerate(display_items, start=1):
         # atributos del producto
         product_id = product.get('product_id')
         product_name = product.get('name') or ''
@@ -315,20 +328,22 @@ def generate_order_pdf(
         total_extra_options = product.get('total_extra_options') 
 
         if product_id == 1:
-             product_name += f" | Metro Cuadrado: {linear_meter * width} m²"
+             product_name = f"<b>{product_name}</b> | Largo: {linear_meter}m | Ancho: {width}m | Area: {linear_meter * width} m²"
         elif product_id is not None and 2 <= product_id <= 9:
-            product_name += f" | Metro Lineal: {linear_meter} m"
+            product_name  = f"<b>{product_name}</b> | Metro Lineal: {linear_meter} m"
 
         data.append([
-            Paragraph(f"<b>{sku}</b>", ),
-            Paragraph(product_name, ),
-            Paragraph(str(quantity), styles['ItemDataStyle']),
+            Paragraph(str(idx), styles['NumberItem']),
+            Paragraph(f"<b>{sku}</b>", styles['CodeName']),
+            Paragraph(product_name,styles['ProductName']),
+            Paragraph(str(quantity), styles['Quantity']),
             Paragraph(f"{price:.2f}", styles['ItemDataStyle']),
             Paragraph(f"{price * quantity:.2f}", styles['ItemDataStyle']),
         ])
 
         if extra_options:
             data.append([
+                Paragraph("", styles['ItemDataStyle']),
                 Paragraph("", styles['ItemDataStyle']),
                 Paragraph("Extras:", ),
                 Paragraph("", styles['ItemDataStyle']),
@@ -360,17 +375,19 @@ def generate_order_pdf(
                 
                 data.append([
                     Paragraph("", ),
+                    Paragraph("", ),
                     Paragraph(extra_name, ),
-                    Paragraph(str(extra_quantity), styles['ItemDataStyle']),
+                    Paragraph(str(extra_quantity), styles['Quantity']),
                     Paragraph(f"{extra_price:.2f}", styles['ItemDataStyle']),
                     Paragraph(f"{extra_price * extra_quantity:.2f}", styles['ItemDataStyle'])
                 ])
 
         data.append([
+            Paragraph("",), 
             Paragraph("<b>Sub Total Producto:</b>", styles['ItemDataStyle']),
             Paragraph("",), 
-            Paragraph("", styles['ItemDataStyle']),
-            Paragraph("", styles['ItemDataStyle']),
+            Paragraph("",), 
+            Paragraph("",), 
             Paragraph(f"{(subtotal or 0) + (total_extra_options or 0):.2f}", styles['ItemDataStyle'])
         ])
         subtotal_row_indices.append(len(data) - 1)
@@ -379,27 +396,30 @@ def generate_order_pdf(
     gravado_row_idx = len(data)
     data.append([        
         Paragraph("<b>Gravado (S/.):</b>", styles['ItemDataStyle']),
-        Paragraph("", styles['ItemDataStyle']),
-        Paragraph("", styles['ItemDataStyle']),
-        Paragraph("", styles['ItemDataStyle']),
+            Paragraph("",), 
+            Paragraph("",), 
+            Paragraph("",), 
+            Paragraph("",), 
         Paragraph(f'{order.total_amount:.2f}', styles['ItemDataStyle'])
     ])
 
     igv_row_idx = len(data)
     data.append([        
         Paragraph("<b>IGV 18% (S/.):</b>", styles['ItemDataStyle']),
-        Paragraph("", styles['ItemDataStyle']),
-        Paragraph("", styles['ItemDataStyle']),
-        Paragraph("", styles['ItemDataStyle']),
+            Paragraph("",), 
+            Paragraph("",), 
+            Paragraph("",), 
+            Paragraph("",), 
         Paragraph(f'{(order.final_amount / 1.18) * 0.18:.2f}', styles['ItemDataStyle'])
     ])
 
     total_row_idx = len(data)
     data.append([        
         Paragraph("<b>Total Carrito (S/.):</b>", styles['ItemDataStyle']),
-        Paragraph("", styles['ItemDataStyle']),
-        Paragraph("", styles['ItemDataStyle']),
-        Paragraph("", styles['ItemDataStyle']),
+            Paragraph("",), 
+            Paragraph("",), 
+            Paragraph("",), 
+            Paragraph("",), 
         Paragraph(f'{order.final_amount:.2f}', styles['ItemDataStyle'])
     ])
 
@@ -420,20 +440,20 @@ def generate_order_pdf(
         ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]
     for idx in subtotal_row_indices:
-        table_style.append(('SPAN', (0, idx), (3, idx)))
+        table_style.append(('SPAN', (1, idx), (4, idx)))
         # table_style.append(('SPAN', (0, idx), (1, idx)))
 
 
     for idx in extras_row_indices:
-        table_style.append(('SPAN', (1, idx), (4, idx)))
+        table_style.append(('SPAN', (2, idx), (5, idx)))
 
     for idx in [gravado_row_idx, igv_row_idx, total_row_idx]:
-        table_style.append(('SPAN', (0, idx), (3, idx )))
+        table_style.append(('SPAN', (0, idx), (4, idx )))
 
 
 
         
-    table = Table(data, colWidths=[0.8*inch, 3.5* inch, 0.7*inch, 0.7*inch, 0.7*inch])
+    table = Table(data, colWidths=[0.35 * inch,0.65*inch, 4.4* inch, 0.55*inch, 0.7*inch, 0.7*inch])
     table.setStyle(TableStyle(table_style))
     
     elements.append(table)
