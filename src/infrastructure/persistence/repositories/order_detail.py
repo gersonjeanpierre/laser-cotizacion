@@ -29,7 +29,9 @@ class SQLAlchemyOrderDetailRepository(OrderDetailRepository):
         return OrderDetailExtraOptionORM(
             extra_option_id=domain_model.extra_option_id,
             quantity=domain_model.quantity,
-            linear_meter=domain_model.linear_meter
+            linear_meter=domain_model.linear_meter,
+            width=domain_model.width,
+            giga_select=domain_model.giga_select
         )
 
     def _to_domain_model(self, orm_model: Optional[OrderDetailORM]) -> Optional[DomainOrderDetail]:

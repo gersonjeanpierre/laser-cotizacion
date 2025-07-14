@@ -84,7 +84,9 @@ class OrderUseCases:
                 extra_options_domain.append(OrderDetailExtraOption(
                     extra_option_id=eo_dto.extra_option_id,
                     quantity=eo_dto.quantity,
-                    linear_meter=eo_dto.linear_meter
+                    linear_meter=eo_dto.linear_meter,
+                    width=eo_dto.width,
+                    giga_select=eo_dto.giga_select
                 ))
 
             # Crear el detalle de dominio y añadirlo al pedido
@@ -95,8 +97,8 @@ class OrderUseCases:
                 width=detail_dto.width,
                 quantity=detail_dto.quantity,
                 linear_meter=detail_dto.linear_meter,
-                subtotal=0, # These values will be set by the frontend's DTOs
-                total_extra_options=0, # as per your instruction
+                subtotal=detail_dto.subtotal,
+                total_extra_options=detail_dto.total_extra_options,
                 extra_options=extra_options_domain,
                 product=product # Enriquecemos el detalle
             )

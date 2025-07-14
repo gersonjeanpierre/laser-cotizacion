@@ -29,6 +29,8 @@ class SQLAlchemyOrderRepository(OrderRepository):
                         extra_option_id=eo.extra_option_id,
                         quantity=float(eo.quantity),
                         linear_meter=float(eo.linear_meter) if eo.linear_meter is not None else None,
+                        width= float(eo.width) if eo.width is not None else None,
+                        giga_select=eo.giga_select
                     ) for eo in detail_orm.extra_options
                 ]
                 
@@ -111,7 +113,9 @@ class SQLAlchemyOrderRepository(OrderRepository):
                 OrderDetailExtraOptionORM(
                     extra_option_id=eo_domain.extra_option_id,
                     quantity=eo_domain.quantity,
-                    linear_meter=eo_domain.linear_meter
+                    linear_meter=eo_domain.linear_meter,
+                    width=eo_domain.width,
+                    giga_select=eo_domain.giga_select
                 ) for eo_domain in detail_domain.extra_options
             ]
             orm_model.details.append(detail_orm)

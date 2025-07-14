@@ -9,6 +9,8 @@ class AngularExtraOptionDto(BaseModel):
     linear_meter: Optional[float] = None
     name: str
     price: float
+    width: Optional[float] = None  # No viene en los datos de Angular
+    giga_select: Optional[str] = None  # No viene en los datos de Angular
 
 # DTO para los items que vienen de Angular
 class AngularCartItemDto(BaseModel):

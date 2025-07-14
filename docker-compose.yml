@@ -14,6 +14,8 @@ services:
       POSTGRES_DB: Cotizacion
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: L4z4r0$
+      TZ: America/Lima
+      POSTGRES_INITDB_ARGS: "--timezone=America/Lima"
     ports:
       - "5000:5432"
     volumes:

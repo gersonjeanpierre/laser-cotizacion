@@ -159,8 +159,8 @@ async def generate_pdf_for_order(
                     "extra_option_id": extra.extra_option_id,
                     "quantity": extra.quantity,
                     "linear_meter": extra.linear_meter,
-                    "width": None,  # No viene en los datos de Angular
-                    "giga_select": None,  # No viene en los datos de Angular
+                    "width": extra.width,  # No viene en los datos de Angular
+                    "giga_select": extra.giga_select,  # No viene en los datos de Angular
                     "name": extra.name,
                     "price": extra.price
                 })
