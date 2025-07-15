@@ -1,3 +1,4 @@
 __pycache__/
 **/__pycache__/
-db/postgres_data/
+backend/db/postgres_data/
+frontend/

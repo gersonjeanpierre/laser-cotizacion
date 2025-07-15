@@ -1,7 +1,7 @@
 data "external_schema" "sqlalchemy" {
   program = [
    "atlas-provider-sqlalchemy",
-   "--path", "./src/infrastructure/persistence/models",
+   "--path", "./backend/src/infrastructure/persistence/models",
    "--dialect", "postgresql"
   ]
 }
@@ -11,7 +11,7 @@ env "dev" {
   dev = "postgresql://postgres:L4z4r0$@localhost:5432/CotizacionDev?sslmode=disable&search_path=public" // Necesario para que Atlas pueda crear el esquema, migraciones y demás
   url = "postgresql://postgres:L4z4r0$@localhost:5432/Cotizacion?sslmode=disable&search_path=public" // URL de conexión a la base de datos de desarrollo
   migration {
-    dir = "file://db/migrations"
+    dir = "file://backend/db/migrations"
   }
   exclude = ["atlas_schema_revisions"]
 }
@@ -20,7 +20,7 @@ env "prod" {
   src = data.external_schema.sqlalchemy.url
   url = env("DATABASE_URL")
   migration {
-    dir = "file://db/migrations"
+    dir = "file://backend/db/migrations"
   }
   exclude = ["atlas_schema_revisions"]
 }

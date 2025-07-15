@@ -23,8 +23,8 @@ COPY pyproject.toml poetry.lock* atlas.hcl /app/
 
 RUN pip install poetry && poetry install --no-root
 
-COPY ./src /app/src
-COPY ./db/migrations /app/db/migrations
+COPY ./backend/src /app/src
+COPY ./backend/db/migrations /app/db/migrations
 
 EXPOSE 8000
 

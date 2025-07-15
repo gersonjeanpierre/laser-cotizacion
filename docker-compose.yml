@@ -4,10 +4,14 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./src:/app/src
-      - ./db/migrations:/app/db/migrations
+      - ./backend/src:/app/src
+      - ./backend/db/migrations:/app/db/migrations
     env_file:
       - .env
+    depends_on:
+      - db
+    networks:
+      - app-network
   db:
     image: postgres:latest
     environment:
@@ -19,4 +23,21 @@ services:
     ports:
       - "5000:5432"
     volumes:
-      - ./db/postgres_data:/var/lib/postgresql/data
+      - ./backend/db/postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    # El servicio del frontend de Angular
+  frontend:
+    build:
+      context: ./frontend  # Asume que tu proyecto de Angular está en una carpeta 'frontend'
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
