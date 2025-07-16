@@ -28,10 +28,14 @@ class StoreUseCases:
             code=store_dto.code,
             address=store_dto.address,
             phone_number=store_dto.phone_number,
+            phone_number_secondary=store_dto.phone_number_secondary,
+            yape_phone_number=store_dto.yape_phone_number,
             email=store_dto.email,
-            created_at=datetime.now() # Fecha de creación se asigna aquí o en el repositorio
+            bcp_cta=store_dto.bcp_cta,
+            bcp_cci=store_dto.bcp_cci,
+            created_at=datetime.now()
         )
-        
+            
         # Guardar el modelo de dominio usando el repositorio (interfaz)
         created_store = self.repository.save(new_store)
         

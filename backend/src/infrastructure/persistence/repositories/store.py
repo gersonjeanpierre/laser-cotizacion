@@ -26,7 +26,11 @@ class SQLAlchemyStoreRepository(StoreRepository):
             code=orm_model.code,
             address=orm_model.address,
             phone_number=orm_model.phone_number,
+            phone_number_secondary=orm_model.phone_number_secondary,
+            yape_phone_number=orm_model.yape_phone_number,
             email=orm_model.email,
+            bcp_cta=orm_model.bcp_cta,
+            bcp_cci=orm_model.bcp_cci,
             created_at=orm_model.created_at,
             updated_at=orm_model.updated_at,
             deleted_at=orm_model.deleted_at
@@ -40,11 +44,15 @@ class SQLAlchemyStoreRepository(StoreRepository):
         if orm_model is None:
             orm_model = StoreORM()
         
-        orm_model.name = domain_model.name
         orm_model.code = domain_model.code
+        orm_model.name = domain_model.name
         orm_model.address = domain_model.address
         orm_model.phone_number = domain_model.phone_number
+        orm_model.phone_number_secondary = domain_model.phone_number_secondary
+        orm_model.yape_phone_number = domain_model.yape_phone_number
         orm_model.email = domain_model.email
+        orm_model.bcp_cta = domain_model.bcp_cta
+        orm_model.bcp_cci = domain_model.bcp_cci
         # Timestamps como created_at y updated_at se gestionan a nivel de DB o por el ORM
         # No los asignamos directamente desde el dominio aquí, salvo deleted_at si se marcó.
         orm_model.deleted_at = domain_model.deleted_at # Persistir el deleted_at si se ha marcado.

@@ -10,7 +10,11 @@ class Store:
     code: Optional[str] = None
     address: Optional[str] = None
     phone_number: Optional[str] = None
+    phone_number_secondary: Optional[str] = None
+    yape_phone_number: Optional[str] = None
     email: Optional[str] = None
+    bcp_cta: Optional[str] = None
+    bcp_cci: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
     deleted_at: Optional[datetime] = None

@@ -86,4 +86,46 @@
         "price": 5,
         "description": "Costo de la mano de obra para la colocación del vinil con el celtex o foam."
     }
+    ,
+    {
+        "name": "Troquelado 1cm diametro",
+        "price": 90,
+        "description": "Troquelado de vinil con un diámetro de 1cm para facilitar su colocación en superficies."
+    }
+    ,
+    {
+        "name": "Troquelado 1.5cm diametro",
+        "price": 90,
+        "description": "Troquelado de vinil con un diámetro de 1.5cm para facilitar su colocación en superficies."
+    }
+    ,
+    {
+        "name": "Troquelado 2cm diametro",
+        "price": 50,
+        "description": "Troquelado de vinil con un diámetro de 2cm para facilitar su colocación en superficies."
+    }
+    ,
+    {
+        "name": "Troquelado 2.5cm diametro",
+        "price": 50,
+        "description": "Troquelado de vinil con un diámetro de 2.5cm para facilitar su colocación en superficies."
+    }
+    ,
+    {
+        "name": "Troquelado 3cm diametro",
+        "price": 40,
+        "description": "Troquelado de vinil con un diámetro de 3cm para facilitar su colocación en superficies."
+    }
+    ,
+    {
+        "name": "Troquelado 3.5cm diametro",
+        "price": 20,
+        "description": "Troquelado de vinil con un diámetro de 3.5cm para facilitar su colocación en superficies."
+    }
+    ,
+    {
+        "name": "Troquelado mayor igual a 4cm diametro",
+        "price": 10,
+        "description": "Troquelado de vinil con un diámetro mayor o igual a 4cm para facilitar su colocación en superficies."
+    }
 ]

@@ -19,7 +19,11 @@ class StoreORM(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     address: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     phone_number: Mapped[Optional[str]] = mapped_column(String(15), nullable=True)
+    phone_number_secondary: Mapped[Optional[str]] = mapped_column(String(15), nullable=True)
+    yape_phone_number: Mapped[Optional[str]] = mapped_column(String(15), nullable=True)
     email: Mapped[Optional[str]] = mapped_column(String(100), unique=True, nullable=True)
+    bcp_cta: Mapped[Optional[str]] = mapped_column(String(16), nullable=True)
+    bcp_cci: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
     
     # Timestamps con valores por defecto a nivel de la base de datos
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())

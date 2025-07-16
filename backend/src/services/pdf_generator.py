@@ -50,7 +50,7 @@ LOGO_BCP = "./src/shared/generate_pdf/bcp.png"
 LOGO_VISA = "./src/shared/generate_pdf/visa.png"
 LOGO_YAPE = "./src/shared/generate_pdf/yape.png"
 
-def _header_footer_template(canvas_obj, doc):
+def _header_footer_template(canvas_obj, doc, store_info):
     """
     Función que dibuja el encabezado y pie de página en cada página del PDF,
     incluyendo un logo en el encabezado.
@@ -82,18 +82,14 @@ def _header_footer_template(canvas_obj, doc):
     # Información de la empresa    # Fecha del documento
     doc_date_p = Paragraph(f"Lima, {datetime.now().strftime('%d de %B del %Y')}", styles['DateStyle'])
     doc_date_p.wrapOn(canvas_obj, doc.width, doc.height)
-    doc_date_p.drawOn(canvas_obj, doc.leftMargin, header_y_start + 10 * mm)  # Ajusta la posición Y según sea necesario
+    doc_date_p.drawOn(canvas_obj, doc.leftMargin + 2 * mm, header_y_start + 10 * mm)  # Ajusta la posición Y según sea necesario
 
     logo_width = 75 * mm
     logo_height = 22.5 * mm # Ajusta esto para mantener la proporción o especifica ambos
-    logo_x = A4[0] - doc.rightMargin - logo_width + 5*mm
+    logo_x = A4[0] - doc.rightMargin - logo_width 
     logo_y = header_y_start 
     canvas_obj.drawImage(LOGO_PATH, logo_x, logo_y, width=logo_width, height=logo_height, preserveAspectRatio=True)
 
-    company_address_p = Paragraph("EDITORIAL GLOBAL MULTIPRINT EIRL", styles['HeaderCompanyFixedStyle'])
-    company_address_p.wrapOn(canvas_obj, doc.width, doc.height)
-    company_address_p.drawOn(canvas_obj, logo_x + 10*mm, header_y_start )  
-    
     #############################
     ######## F O O T E R ########
     #############################
@@ -104,15 +100,15 @@ def _header_footer_template(canvas_obj, doc):
     styles.add(ParagraphStyle(name='NoteFooter', fontSize=10, leading=12, alignment=0, fontName='Helvetica'))
 
     # Dibujar una tabla de 2 filas y 1 columna , la primera fila background rojo que dira "Modalidad de pago" y la otra fila estara inicialmente como espacio vacio visible
-    adelanto = Paragraph("- Adelanto del 50%, con previa aprobación de la muestra.", styles['NoteFooter'])
+    adelanto = Paragraph("- Se procede la impresión previa autorización del cliente.", styles['NoteFooter'])
     no_delivery = Paragraph("- El delivery no esta considerado en la cotización.", styles['NoteFooter'])
     title_footer_table = Paragraph("<b><font color=white>Modalidad de pago</font></b>", styles['TablePay'])
     efectivo = Paragraph("Efectivo:", styles['TableContent'])
     transferencia_bancaria = Paragraph("Transferencia Bancaria:", styles['TableContent'])    
     nro_cuenta = Paragraph("Nro. de Cuenta BCP:", styles['TableContent'])
-    nro_cuenta_value = Paragraph("191-2536429-0-93", styles['TableContent'])
+    nro_cuenta_value = Paragraph(f"{store_info.bcp_cta}", styles['TableContent'])
     nro_cci = Paragraph("Nro. de CCI Interbancaria:", styles['TableContent'])
-    nro_cci_value = Paragraph("00219100253642909359", styles['TableContent'])
+    nro_cci_value = Paragraph(f"{store_info.bcp_cci}", styles['TableContent'])
 
     bcp_logo = Image(LOGO_BCP, width=12 * mm, height=3 * mm)
     visa_logo = Image(LOGO_VISA, width=12 * mm, height= 4 * mm)
@@ -151,6 +147,15 @@ def _header_footer_template(canvas_obj, doc):
     footer_payment_info_table.wrapOn(canvas_obj, doc.width, doc.bottomMargin)
     footer_payment_info_table.drawOn(canvas_obj, doc.leftMargin, 23 * mm)  # Ajusta la posición Y según sea necesario      
 
+    phone = ''
+    for i in range(len(store_info.phone_number)):
+        if i == 3:
+            phone += ' '
+        if i == 6:
+            phone += ' '
+        if i == 9:
+            phone += ' '
+        phone += store_info.phone_number[i]
     
     # Footer con información de contacto y ubicación
     styles.add(ParagraphStyle(name='FooterContact', fontSize=10,  alignment=0, fontName='Helvetica'))
@@ -159,21 +164,21 @@ def _header_footer_template(canvas_obj, doc):
     web_logo = Image("./src/shared/generate_pdf/web.png", width=5 * mm, height=5 * mm)
     phone_logo = Image("./src/shared/generate_pdf/phone.png", width=5 * mm, height=5 * mm)
 
-    email = Paragraph("laser.guizado.plaza@gmail.com", styles['FooterContact'])
-    web = Paragraph("www.lasercolorveloz.com", styles['FooterContact'])
-    contact_phones = Paragraph("995 558 329  958 863 047", styles['FooterContact'])
+    email = Paragraph(f"{store_info.email}", styles['FooterContact'])
+    web_laser = Paragraph("www.lasercolorveloz.com", styles['FooterContact'])
+    web_toque = Paragraph("www.toqueunicoperu.com", styles['FooterContact'])
+    contact_phone = Paragraph(f"{phone}", styles['FooterContact'])
 
-    contact_phone = Paragraph("745 9011", styles['FooterContact'])
     contact_table_data = [
-        [email_logo,email,phone_logo,contact_phones],  # Primera fila con email y teléfono
-        [web_logo,web , phone_logo, contact_phone]  # Segunda fila con web y teléfono,            
+        [email_logo,email,phone_logo,contact_phone],  # Primera fila con email y teléfono
+        [web_logo,web_laser , web_logo,web_toque],  # Segunda fila con web y teléfono,
     ]
     footer_contact_info_table = Table(
         contact_table_data,
         colWidths=[(doc.width / 2 - 4 * mm)* 0.07 ,
                    (doc.width / 2 - 4 * mm) * 0.61,
                    (doc.width / 2 - 4 * mm)* 0.07,
-                   (doc.width / 2 - 4 * mm)* 0.33   ]  # Ajusta el ancho de la columna
+                   (doc.width / 2 - 4 * mm)* 0.6   ]  # Ajusta el ancho de la columna
     )
     footer_contact_info_table.setStyle(TableStyle([
         ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -185,7 +190,7 @@ def _header_footer_template(canvas_obj, doc):
 
     footer_ubication_width = 85 * mm  # Ancho del box de ubicación
     footer_ubication_height = 65 * mm  # Alto del box de ubicación
-    footer_ubication_x = A4[0] - doc.rightMargin - footer_ubication_width + 14 * mm 
+    footer_ubication_x = A4[0] - doc.rightMargin - footer_ubication_width + 9 * mm 
     footer_ubication_y =  3 * mm     
     canvas_obj.drawImage(FOOTER_UBICATION, footer_ubication_x, footer_ubication_y, width=footer_ubication_width, height=footer_ubication_height, preserveAspectRatio=True)
 
@@ -194,7 +199,7 @@ def _header_footer_template(canvas_obj, doc):
     address_info = [
         "C.C. Guizado Record Plaza",
         "1er Piso",
-        "Stand 102 A-194",
+        "Stand 194",
         "Jr. Huaraz 1717 (altura de la Cra. 9 de la Av. Brasil)",
         "Breña"
     ]
@@ -216,7 +221,7 @@ def _header_footer_template(canvas_obj, doc):
     for i, line in enumerate(address_info):
         p = Paragraph(line, styles['FooterContactInfoStyle'])
         w, h = p.wrap(box_width - 4 * mm, doc.bottomMargin)
-        p.drawOn(canvas_obj, box_x + 2 * mm, current_y - h ) 
+        p.drawOn(canvas_obj, box_x , current_y - h ) 
         current_y -= h
 
     # Número de página (centrado en el pie de página)
@@ -245,7 +250,7 @@ def generate_order_pdf(
     """
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=A4,
-                            rightMargin=30, leftMargin=30,
+                            rightMargin=20, leftMargin=20,
                             topMargin=23 * mm, bottomMargin=68 * mm)
     
     styles = getSampleStyleSheet()
@@ -254,7 +259,7 @@ def generate_order_pdf(
     styles.add(ParagraphStyle(name='Intro', fontSize=12, leading=28, alignment=0,  fontName='Helvetica'))
     styles.add(ParagraphStyle(name='IntroIdent', fontSize=12, leading=28, alignment=0, firstLineIndent=100, fontName='Helvetica'))
     styles.add(ParagraphStyle(name='HeaderStyle', fontSize=12, leading=14, spaceAfter=6, fontName='Helvetica-Bold'))
-    styles.add(ParagraphStyle(name='NormalStyle', fontSize=12, leading=12, spaceAfter=3))
+    styles.add(ParagraphStyle(name='NormalStyle', fontSize=12, leading=12, spaceAfter=1))
     styles.add(ParagraphStyle(name='ItemHeaderStyle', fontSize=10, leading=12, alignment=1, fontName='Helvetica-Bold'),)
     styles.add(ParagraphStyle(name='ItemDataStyle', fontSize=9, leading=11 , alignment=2, fontName='Helvetica'))
     styles.add(ParagraphStyle(name='TotalStyle', fontSize=14, leading=16, alignment=2, fontName='Helvetica-Bold'))
@@ -266,6 +271,9 @@ def generate_order_pdf(
 
 
     elements = []
+
+    # Infor Store
+    store_info = order.store
 
     # Información del cliente
     customer = order.customer
@@ -462,6 +470,11 @@ def generate_order_pdf(
 
 
 
-    doc.build(elements, onFirstPage=_header_footer_template, onLaterPages=_header_footer_template)
+    # doc.build(elements, onFirstPage=_header_footer_template, onLaterPages=_header_footer_template)
+    doc.build(
+    elements,
+    onFirstPage=lambda canvas_obj, doc: _header_footer_template(canvas_obj, doc, store_info),
+    onLaterPages=lambda canvas_obj, doc: _header_footer_template(canvas_obj, doc, store_info)
+)
     buffer.seek(0)
     return buffer

@@ -1,15 +1,9 @@
-# src/infrastructure/persistence/models/order_detail.py
 from datetime import datetime
 from typing import Optional, List
-from sqlalchemy import String, DateTime, Text, func, ForeignKey, DECIMAL, Integer
+from sqlalchemy import String, DateTime, func, ForeignKey, DECIMAL, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.infrastructure.database.database import Base
-
-# Importa los modelos ORM con los que se relaciona
-# from src.infrastructure.persistence.models.product import ProductORM
-# from src.infrastructure.persistence.models.extra_option import ExtraOptionORM
-# from src.infrastructure.persistence.models.order import OrderORM
 
 class OrderDetailExtraOptionORM(Base):
     """
@@ -51,8 +45,8 @@ class OrderDetailORM(Base):
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     
     # Definición de relaciones con los otros modelos ORM
-    order: Mapped["OrderORM"] = relationship(back_populates="details")
-    product: Mapped["ProductORM"] = relationship()
+    order: Mapped["OrderORM"] = relationship(back_populates="details") # type: ignore
+    product: Mapped["ProductORM"] = relationship() # type: ignore
     extra_options: Mapped[List[OrderDetailExtraOptionORM]] = relationship(back_populates="order_detail", cascade="all, delete-orphan")
 
     def __repr__(self) -> str:

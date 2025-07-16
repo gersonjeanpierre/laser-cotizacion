@@ -19,7 +19,7 @@ RUN adduser --disabled-password --gecos '' dockuser
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock* atlas.hcl /app/
+COPY pyproject.toml poetry.lock* ./backend/atlas.hcl /app/
 
 RUN pip install poetry && poetry install --no-root
 
