@@ -21,12 +21,12 @@ from src.infrastructure.persistence.repositories.extra_option import SQLAlchemyE
 from src.application.exceptions import NotFoundException, ConflictException
 
 # Importa el servicio de generación de PDF
-from src.services.pdf_generator import generate_order_pdf
+from src.services.order_pdf.pdf_generator import generate_order_pdf
 
 # Importa los DTOs necesarios para el request del PDF desde el servicio de PDF
 # Estos DTOs son específicos para la información detallada que el frontend envía para la impresión
 # Si estos DTOs se usaran en otros lugares, podrías moverlos a un archivo `src/application/dtos/pdf_generation.py`
-from src.services.pdf_generator import (
+from src.services.order_pdf.pdf_generator import (
     DisplayCartItemSchema,
     DisplayProductExtraOptionSchema,
     MyCartDetailExtraOptionSchema # Aunque no se usa directamente en el endpoint, es parte del esquema
@@ -183,7 +183,7 @@ async def generate_pdf_for_order(
             display_items.append(display_item)
 
         # 3. Generar el PDF
-        from src.services.pdf_generator import generate_order_pdf
+        from src.services.order_pdf.pdf_generator import generate_order_pdf
         pdf_buffer = generate_order_pdf(
             order=order,
             display_items=display_items

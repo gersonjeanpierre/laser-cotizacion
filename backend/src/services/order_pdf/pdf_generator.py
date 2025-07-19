@@ -11,6 +11,7 @@ from datetime import datetime
 import locale
 from zoneinfo import ZoneInfo
 
+from src.services.order_pdf.number_to_text import convert_number_to_text
 from src.application.dtos.order import OrderResponseDto
 from src.application.dtos.customer import CustomerResponseDto
 from src.application.dtos.order_detail import OrderDetailResponseDto
@@ -380,6 +381,10 @@ def generate_order_pdf(
                     extra_name += f" | Metro Lineal: {extra_linear_meter} m"
                 if extra_linear_meter and 10 <= extra_option_id <= 13:
                     extra_name += f" | Largo: {extra_linear_meter}m | Ancho: {extra_width}m"
+
+                importe = extra_price * extra_quantity
+                if 15 <= extra_option_id <= 21:
+                    importe = extra_price
                 
                 data.append([
                     Paragraph("", ),
@@ -387,7 +392,7 @@ def generate_order_pdf(
                     Paragraph(extra_name, ),
                     Paragraph(str(extra_quantity), styles['Quantity']),
                     Paragraph(f"{extra_price:.2f}", styles['ItemDataStyle']),
-                    Paragraph(f"{extra_price * extra_quantity:.2f}", styles['ItemDataStyle'])
+                    Paragraph(f"{importe:.2f}", styles['ItemDataStyle'])
                 ])
 
         data.append([
@@ -421,13 +426,15 @@ def generate_order_pdf(
         Paragraph(f'{(order.final_amount / 1.18) * 0.18:.2f}', styles['ItemDataStyle'])
     ])
 
+    final_amount_text = convert_number_to_text(order.final_amount)
+
     total_row_idx = len(data)
     data.append([        
+        Paragraph(final_amount_text,),
+        Paragraph("",), 
+        Paragraph("",), 
         Paragraph("<b>Total Carrito (S/.):</b>", styles['ItemDataStyle']),
-            Paragraph("",), 
-            Paragraph("",), 
-            Paragraph("",), 
-            Paragraph("",), 
+        Paragraph("",), 
         Paragraph(f'{order.final_amount:.2f}', styles['ItemDataStyle'])
     ])
 
@@ -455,11 +462,15 @@ def generate_order_pdf(
     for idx in extras_row_indices:
         table_style.append(('SPAN', (2, idx), (5, idx)))
 
-    for idx in [gravado_row_idx, igv_row_idx, total_row_idx]:
+    for idx in [gravado_row_idx, igv_row_idx]:
         table_style.append(('SPAN', (0, idx), (4, idx )))
 
-
-
+    for idx in [total_row_idx]:
+        table_style.append(('SPAN', (0, idx), (2, idx)))
+        table_style.append(('SPAN', (3, idx), (4, idx)))
+        # table_style.append(('LINEBEFORE', (3, idx), (3,idx+ 1),2,colors.white))
+        # table_style.append(('LINEABOVE', (0, idx), (3,idx),1,colors.black))
+        # table_style.append(('LINEABOVE', (0, idx+1), (4,idx),4,colors.black))
         
     table = Table(data, colWidths=[0.35 * inch,0.65*inch, 4.4* inch, 0.55*inch, 0.7*inch, 0.7*inch])
     table.setStyle(TableStyle(table_style))
@@ -467,14 +478,11 @@ def generate_order_pdf(
     elements.append(table)
     elements.append(Spacer(1, 0.2 * inch))
 
-
-
-
     # doc.build(elements, onFirstPage=_header_footer_template, onLaterPages=_header_footer_template)
     doc.build(
-    elements,
-    onFirstPage=lambda canvas_obj, doc: _header_footer_template(canvas_obj, doc, store_info),
-    onLaterPages=lambda canvas_obj, doc: _header_footer_template(canvas_obj, doc, store_info)
-)
+        elements,
+        onFirstPage=lambda canvas_obj, doc: _header_footer_template(canvas_obj, doc, store_info),
+        onLaterPages=lambda canvas_obj, doc: _header_footer_template(canvas_obj, doc, store_info)
+    )
     buffer.seek(0)
     return buffer
