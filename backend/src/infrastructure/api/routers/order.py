@@ -22,15 +22,12 @@ from src.application.exceptions import NotFoundException, ConflictException
 
 # Importa el servicio de generación de PDF
 from src.services.order_pdf.pdf_generator import generate_order_pdf
-
-# Importa los DTOs necesarios para el request del PDF desde el servicio de PDF
-# Estos DTOs son específicos para la información detallada que el frontend envía para la impresión
-# Si estos DTOs se usaran en otros lugares, podrías moverlos a un archivo `src/application/dtos/pdf_generation.py`
 from src.services.order_pdf.pdf_generator import (
     DisplayCartItemSchema,
     DisplayProductExtraOptionSchema,
     MyCartDetailExtraOptionSchema # Aunque no se usa directamente en el endpoint, es parte del esquema
 )
+from src.services.order_report.generate_orders_excel import generate_orders_csv
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
@@ -202,3 +199,17 @@ async def generate_pdf_for_order(
     except Exception as e:
         print(f"Error al generar el PDF para la orden {order_id}: {e}")
         raise HTTPException(status_code=500, detail=f"Error interno del servidor: {e}")
+
+@router.get("/report/csv")
+def download_orders_csv(
+    skip: int = 0,
+    limit: int = 100,
+    use_cases: OrderUseCases = Depends(get_order_use_cases)
+):
+    orders = use_cases.get_all_orders(skip, limit)
+    csv_buffer = generate_orders_csv(orders)
+    return StreamingResponse(
+        csv_buffer,
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=orders_report.csv"}
+    )

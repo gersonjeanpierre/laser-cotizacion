@@ -30,7 +30,7 @@ services:
       context: ./frontend  # Asume que tu proyecto de Angular está en una carpeta 'frontend'
       dockerfile: Dockerfile
     ports:
-      - "9000:80"
+      - "80:80"
     depends_on:
       - web
     networks:
