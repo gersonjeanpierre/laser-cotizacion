@@ -10,10 +10,10 @@ from src.domain.models.type_client import TypeClient
 class Customer:
     entity_type: Literal['N', 'J'] # 'N' para Persona Natural, 'J' para Persona Jurídica
     phone_number: str
-    email: str
     type_client_id: int # ID del tipo de cliente
     
     id: Optional[int] = None
+    email: Optional [str] = None 
     doc_foreign: Optional[str] = None # Número de documento, para CE 
     ruc: Optional[str] = None # RUC es opcional, pero único si está presente
     dni: Optional[str] = None # DNI es opcional, pero único si está presente

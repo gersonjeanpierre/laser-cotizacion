@@ -42,7 +42,7 @@ class CreateCustomerDto(BaseModel):
     business_name: Optional[str] = Field(None, max_length=150, description="Razón social (para Persona Jurídica o Natural)")
     
     phone_number: str = Field(..., max_length=15, description="Número de teléfono del cliente")
-    email: EmailStr = Field(..., max_length=100, description="Correo electrónico único del cliente")
+    email: Optional[EmailStr] = Field(..., max_length=100, description="Correo electrónico único del cliente")
 
     @model_validator(mode='after')
     def validate_entity_fields(self) -> 'CreateCustomerDto':
@@ -144,7 +144,7 @@ class CustomerResponseDto(BaseModel):
     last_name: Optional[str]
     business_name: Optional[str]
     phone_number: str
-    email: EmailStr
+    email: Optional[str]
     created_at: datetime
     updated_at: Optional[datetime]
     deleted_at: Optional[datetime]

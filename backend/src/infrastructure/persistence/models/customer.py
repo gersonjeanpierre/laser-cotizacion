@@ -27,14 +27,14 @@ class CustomerORM(Base):
     business_name: Mapped[Optional[str]] = mapped_column(String(150), nullable=True)
     
     phone_number: Mapped[str] = mapped_column(String(15), nullable=False)
-    email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    email: Mapped[Optional[str]] = mapped_column(String(100), unique=True, nullable=True)
     
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
     updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
     # Relación One-to-One con TypeClient
-    type_client: Mapped["TypeClientORM"] = relationship(lazy="joined")
+    type_client: Mapped["TypeClientORM"] = relationship(lazy="joined") # type: ignore
 
     def __repr__(self) -> str:
         return f"<CustomerORM(id={self.id}, email={self.email})>"
