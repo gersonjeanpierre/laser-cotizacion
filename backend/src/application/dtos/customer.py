@@ -27,7 +27,7 @@ def validate_doc_foreign(v: Optional[str]) -> Optional[str]:
 
 class CreateCustomerDto(BaseModel):
     # type_client_id es mandatorio para crear un cliente
-    type_client_id: int = Field(..., description="ID del tipo de cliente asociado")
+    type_client_id: Optional[int]= Field(None, description="ID del tipo de cliente asociado")
     entity_type: Literal['N', 'J'] = Field(..., description="Tipo de entidad: 'N' (Natural) o 'J' (Jurídica)")
     
     # Documentos de identidad. Son opcionales a nivel de campo,
@@ -46,17 +46,17 @@ class CreateCustomerDto(BaseModel):
 
     @model_validator(mode='after')
     def validate_entity_fields(self) -> 'CreateCustomerDto':
-        if self.type_client_id is None:
-            raise ValueError("Seleccionar el Tipo de Cliente es obligatorio.")
         # Validación para Persona Natural ('N')
         if self.entity_type == 'N':
+            if self.type_client_id is None:
+                raise ValueError("Seleccionar el Tipo de Cliente es obligatorio.")
             # 1. Nombre y apellido son obligatorios para una persona natural.
             if not self.name or not self.last_name:
                 raise ValueError("Para Persona Natural, el nombre y el apellido son obligatorios.")
             
             # 3. Se requiere al menos un documento de identificación (DNI, RUC o doc_foreign).
-            if not self.dni and not self.ruc and not self.doc_foreign:
-                 raise ValueError("Para Persona Natural, se requiere DNI, RUC o un documento de extranjero.")
+            # if not self.dni and not self.ruc and not self.doc_foreign:
+            #      raise ValueError("Para Persona Natural, se requiere DNI, RUC o un documento de extranjero.")
             
             # 4. Consistencia de documentos: Un cliente es peruano (DNI) o extranjero. No ambos.
             if self.dni is not None and self.doc_foreign is not None:
@@ -64,6 +64,8 @@ class CreateCustomerDto(BaseModel):
             
         # Validación para Persona Jurídica ('J')
         elif self.entity_type == 'J':
+            if self.type_client_id is None:
+                raise ValueError("Seleccionar el Tipo de Cliente es obligatorio.")
             # 1. RUC y razón social son obligatorios.
             if not self.ruc:
                 raise ValueError("Para Persona Jurídica, el RUC es obligatorio.")
