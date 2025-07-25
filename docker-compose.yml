@@ -13,7 +13,7 @@ services:
     networks:
       - app-network
   db:
-    image: postgres:latest
+    image: postgres:17
     environment:
       POSTGRES_DB: Cotizacion
       POSTGRES_USER: postgres

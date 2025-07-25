@@ -32,10 +32,10 @@ class CreateCustomerDto(BaseModel):
     
     # Documentos de identidad. Son opcionales a nivel de campo,
     # pero la validación de negocio los hará obligatorios según el entity_type.
-    ruc: Optional[Annotated[str, BeforeValidator(validate_ruc)]] = Field(None, max_length=11, description="Número de RUC (11 dígitos)")
-    dni: Optional[Annotated[str, BeforeValidator(validate_dni)]] = Field(None, max_length=8, description="Número de DNI (8 dígitos)")
-    doc_foreign: Optional[Annotated[str, BeforeValidator(validate_doc_foreign)]] = Field(None, max_length=20, description="Carnet de Extranjería, Pasaporte, etc.") # <-- Nuevo campo
-    
+    ruc: Optional[Annotated[str, BeforeValidator(validate_ruc)]] = Field(None, max_length=11, min_length=11, description="Número de RUC (11 dígitos)")
+    dni: Optional[Annotated[str, BeforeValidator(validate_dni)]] = Field(None, max_length=8, min_length=8, description="Número de DNI (8 dígitos)")
+    doc_foreign: Optional[Annotated[str, BeforeValidator(validate_doc_foreign)]] = Field(None, max_length=20, min_length=6, description="Carnet de Extranjería, Pasaporte, etc.") 
+
     # Campos de nombre/razón social
     name: Optional[str] = Field(None, max_length=35, description="Nombre(s) del cliente (para Persona Natural o representante)")
     last_name: Optional[str] = Field(None, max_length=40, description="Apellido(s) del cliente (para Persona Natural o representante)")
@@ -46,14 +46,13 @@ class CreateCustomerDto(BaseModel):
 
     @model_validator(mode='after')
     def validate_entity_fields(self) -> 'CreateCustomerDto':
+        if self.type_client_id is None:
+            raise ValueError("Seleccionar el Tipo de Cliente es obligatorio.")
         # Validación para Persona Natural ('N')
         if self.entity_type == 'N':
             # 1. Nombre y apellido son obligatorios para una persona natural.
             if not self.name or not self.last_name:
                 raise ValueError("Para Persona Natural, el nombre y el apellido son obligatorios.")
-            
-            # 2. Razón social es opcional, no se valida si está presente.
-            #    El campo 'business_name' puede ser llenado si es una 'Persona Natural con Negocio'.
             
             # 3. Se requiere al menos un documento de identificación (DNI, RUC o doc_foreign).
             if not self.dni and not self.ruc and not self.doc_foreign:
@@ -63,21 +62,14 @@ class CreateCustomerDto(BaseModel):
             if self.dni is not None and self.doc_foreign is not None:
                 raise ValueError("No se puede proporcionar DNI y un documento de extranjero a la vez.")
             
-            # 5. El RUC es opcional y puede coexistir con DNI o doc_foreign (caso 'Persona Natural con Negocio').
-            #    No se necesita validación adicional aquí, ya que el 'BeforeValidator' ya verifica el formato.
-            
         # Validación para Persona Jurídica ('J')
         elif self.entity_type == 'J':
             # 1. RUC y razón social son obligatorios.
             if not self.ruc:
                 raise ValueError("Para Persona Jurídica, el RUC es obligatorio.")
             if not self.business_name:
-                raise ValueError("Para Persona Jurídica, la razón social es obligatoria.")
-            
-            # 2. Nombre, apellido, DNI y documento de extranjero son opcionales
-            #    y pueden ser proporcionados para el representante legal.
-            #    No se levanta error si están presentes.
-            
+                raise ValueError("Para Persona Jurídica, la razón social es obligatoria.")            
+              
         return self
     
 # ----------------------------------------------------

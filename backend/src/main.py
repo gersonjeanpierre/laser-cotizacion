@@ -18,8 +18,9 @@ app = FastAPI(
 origins = [
     "http://localhost:4200",
     "http://127.0.0.1:4200",
-    "http://localhost:80",
-    "http://192.168.100.204", #  local      
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://192.168.100.204", # PC Julio Como Servidor Local para recolectar datos y pruebas 
 ]
 
 app.add_middleware(
